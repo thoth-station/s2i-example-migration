@@ -1,0 +1,100 @@
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: "s2i-example-tensorflow"
+  labels:
+    app: "s2i-example-tensorflow"
+spec:
+  successfulBuildsHistoryLimit: 1
+  failedBuildsHistoryLimit: 2
+  resources:
+    requests:
+      cpu: 1
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "s2i-example-tensorflow:latest"
+  source:
+    type: Git
+    git:
+      uri: "https://github.com/fridex/thoth-s2i-demo"
+      ref: "master"
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: "python-36:latest"
+      env:
+  triggers:
+    - type: ImageChange
+      imageChange: {}
+---
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  labels:
+    app: "s2i-example-tensorflow"
+  name: "s2i-example-tensorflow"
+spec:
+  replicas: 1
+  selector:
+    service: "s2i-example-thoth"
+  template:
+    metadata:
+      labels:
+        service: "s2i-example-thoth"
+    spec:
+      containers:
+        - name: "s2i-example-tensorflow"
+          restartPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+  test: false
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - "s2i-example-tensorflow"
+        from:
+          kind: ImageStreamTag
+          name: "s2i-example-tensorflow:latest"
+---
+apiVersion: "image.openshift.io/v1"
+kind: ImageStream
+metadata:
+  labels:
+    app: "s2i-example-tensorflow"
+  name: "s2i-example-tensorflow"
+spec:
+  name: "s2i-example-tensorflow"
+---
+apiVersion: "image.openshift.io/v1"
+kind: ImageStream
+metadata:
+  labels:
+    app: "s2i-example-tensorflow"
+  name: "python-36"
+spec:
+  tags:
+    - name: "latest"
+      from:
+        kind: "DockerImage"
+        name: "registry.access.redhat.com/ubi8/python-36"
+      referencePolicy:
+        type: "Source"
