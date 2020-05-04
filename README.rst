@@ -152,6 +152,8 @@ deployment:
           value: '0'
         - name: THAMOS_CONFIG_EXPAND_ENV
           value: '0'
+        - name: THAMOS_REQUIREMENTS_FORMAT
+          value: 'pip'
         - name: THAMOS_NO_PROGRESSBAR
           value: '1'
         - name: THAMOS_NO_INTERACTIVE

@@ -31,9 +31,6 @@ spec:
         kind: ImageStreamTag
         name: "python-36:latest"
       env:
-  triggers:
-    - type: ImageChange
-      imageChange: {}
 ---
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
