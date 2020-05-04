@@ -6,7 +6,7 @@ metadata:
   labels:
     app: "s2i-example-tensorflow"
 spec:
-  successfulBuildsHistoryLimit: 1
+  successfulBuildsHistoryLimit: 4
   failedBuildsHistoryLimit: 2
   resources:
     requests:
@@ -31,9 +31,6 @@ spec:
         kind: ImageStreamTag
         name: "python-36:latest"
       env:
-  triggers:
-    - type: ImageChange
-      imageChange: {}
 ---
 kind: DeploymentConfig
 apiVersion: apps.openshift.io/v1
