@@ -3,13 +3,16 @@
 
 import sys
 import tensorflow as tf
+import time
 
 
 def thoth_hello():
     """Print hello world from within a TensorFlow session."""
-    hello = tf.constant('Hello Thoth by TensorFlow!')
-    sess = tf.Session()
-    print(sess.run(hello))
+    while True:
+        with tf.compat.v1.Session() as sess:
+            hello = tf.constant('Hello Thoth by TensorFlow!')
+            print(sess.run(hello))
+            time.sleep(3)
 
 
 if __name__ == '__main__':
