@@ -32,7 +32,7 @@ To install this application to an OpenShift cluster run the following command:
 
 .. code-block:: console
 
-  oc create -f https://raw.githubusercontent.com/fridex/thoth-s2i-demo/master/openshift.yaml
+  oc create -f https://raw.githubusercontent.com/thoth-station/s2i-example-migration/master/openshift.yaml
 
 Migrating to Thoth
 ==================
@@ -125,7 +125,7 @@ deployment:
     source:
       git:
         ref: master
-        uri: https://github.com/fridex/thoth-s2i-demo
+        uri: https://github.com/thoth-station/thoth-s2i-demo
       type: Git
     strategy:
       sourceStrategy:
@@ -319,6 +319,6 @@ To remove this application from the namespace:
 
 .. code-block:: console
 
-  oc delete -f https://raw.githubusercontent.com/fridex/thoth-s2i-demo/master/openshift.yaml
+  oc delete -f https://raw.githubusercontent.com/thoth-station/s2i-example-migration/master/openshift.yaml
   # Or, alternatively:
   #   oc delete bc,dc,is -l app=s2i-example-tensorflow
