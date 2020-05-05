@@ -125,7 +125,7 @@ deployment:
     source:
       git:
         ref: master
-        uri: https://github.com/thoth-station/thoth-s2i-demo
+        uri: https://github.com/thoth-station/s2i-example-migration
       type: Git
     strategy:
       sourceStrategy:
