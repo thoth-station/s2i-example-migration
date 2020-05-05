@@ -1,5 +1,5 @@
-thoth-s2i-demo
---------------
+s2i-example-migration
+---------------------
 
 An example repository of a project to show how to migrate an already existing
 OpenShift Python s2i application to Thoth (demo).
