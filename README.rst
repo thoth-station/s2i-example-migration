@@ -88,7 +88,7 @@ deployment:
 
 .. code-block:: console
 
-  thoth-s2i migrate -n thoth-s2i-demo --dry-run --insert-env-vars --s2i-thoth quay.io/thoth-station/s2i-thoth-ubi8-py36
+  THAMOS_REQUIREMENTS_FORMAT=pip thoth-s2i migrate -n thoth-s2i-demo --dry-run --insert-env-vars --s2i-thoth quay.io/thoth-station/s2i-thoth-ubi8-py36
   2020-04-29 16:21:44,455 [220851] INFO     thoth.s2i.objs: Loading file content from '/tmp/tmp5hmcksot'
   2020-04-29 16:21:44,481 [220851] INFO     thoth.s2i.objs: Found 's2i-example-tensorflow' of kind 'buildconfig' in '/tmp/tmp5hmcksot'
   2020-04-29 16:21:44,481 [220851] INFO     thoth.s2i.lib: Patching BuildConfig 's2i-example-tensorflow', replacing 'python-36:latest' with 's2i-thoth-ubi8-py36:latest'
@@ -160,6 +160,8 @@ deployment:
           value: '1'
         - name: THAMOS_DEV
           value: '0'
+        - name: THAMOS_REQUIREMENTS_FORMAT
+          value: 'pip'
         from:
           kind: ImageStreamTag
           name: s2i-thoth-ubi8-py36:latest
@@ -179,12 +181,17 @@ build config. To understand their semantics, refer to `s2i-thoth
 <https://github.com/thoth-station/s2i-thoth>`_ documentation and `Thamos
 <https://github.com/thoth-station/thamos>`_.
 
+The environment variable called ``THAMOS_REQUIREMENTS_FORMAT`` specifies a
+requirements.txt file will be searched during the build (instead of using
+default ``Pipfile``/``Pipfile.lock`` files as produced by
+`Pipenv <https://pipenv.pypa.io/>`_).
+
 After the changes done have been reviewed, we can submit them to the cluster by
 removing the ``--dry-run`` option:
 
 .. code-block:: console
 
-  thoth-s2i migrate -n thoth-s2i-demo --insert-env-vars --s2i-thoth quay.io/thoth-station/s2i-thoth-ubi8-py36 --import-image --trigger-build
+  THAMOS_REQUIREMENTS_FORMAT=pip thoth-s2i migrate -n thoth-s2i-demo --insert-env-vars --s2i-thoth quay.io/thoth-station/s2i-thoth-ubi8-py36 --import-image --trigger-build
   2020-04-29 16:26:27,857 [221257] INFO     thoth.s2i.objs: Loading file content from '/tmp/tmpu46k0k9n'
   2020-04-29 16:26:27,885 [221257] INFO     thoth.s2i.objs: Found 's2i-example-tensorflow' of kind 'buildconfig' in '/tmp/tmpu46k0k9n'
   2020-04-29 16:26:27,885 [221257] INFO     thoth.s2i.lib: Patching BuildConfig 's2i-example-tensorflow', replacing 'python-36:latest' with 's2i-thoth-ubi8-py36:latest'
